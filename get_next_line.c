@@ -3,12 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arlee <arlee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaaaaran <aaaaaran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:40:03 by arlee             #+#    #+#             */
-/*   Updated: 2023/09/08 21:20:33 by arlee            ###   ########.fr       */
+/*   Updated: 2023/09/11 19:46:46 by aaaaaran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// gcc -Wall -Wextra -Werror  "-D BUFFER_SIZE=32" get_next_line.c get_next_line_utils.c
+
+// fd를 받아와 해당 파일에서 개행으로 끝나는 한줄의 문장을 반환하는 함수
 
 // #include "get_next_line.h"
 
