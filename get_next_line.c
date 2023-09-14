@@ -6,7 +6,7 @@
 /*   By: arlee <arlee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:40:03 by arlee             #+#    #+#             */
-/*   Updated: 2023/09/13 20:36:05 by arlee            ###   ########.fr       */
+/*   Updated: 2023/09/14 20:51:17 by arlee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
-#define BUFFER_SIZE 100
+#define BUFFER_SIZE 15
 
 
 // int	check_fd(int fd)
@@ -104,39 +104,58 @@
 // 	free(save);
 	
 // }
-
-char *ft_one_line(char *save) //read one line each in save file(saved whole txt) 
-{	
-	int len;
-	int i;
-	char *str;
-	
-	i = 0;
-	if(!save)
-		return (NULL);
-	len = ft_strlen(save);
-	while(save[i] != '\0' && save[i] != '\n')
-		i++;
-	str = (char *)malloc(sizeof(char) * (len - i + 1));
-	i++;
-	if(!str)
-		return (NULL);
-	str[i] = '\0';
-	
-	return(str);
-}
-
-int ft_strlen(char *s)
+int ft_strlen(char *str)
 {
 	int i;
 
 	i = 0;
-	while(s[i] != '\0')
+	while(str[i] != '\0')
 	{
 		i++;
 	}
 	return (i);
 }
+
+// error : read only firstline
+// solution : IDK...
+
+/*char *ft_one_line(char *save) //read one line each in save file(saved whole txt) and check '\n' 
+{	
+	int len;
+	int i;
+	int j;
+	char *str;
+	
+	i = 0;
+	j = 0;
+	if(!save)
+		return (NULL);
+	len = ft_strlen(save); // buffer_sized file save (z.B) 100))
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if(!str)
+		return (NULL);
+	while(save[i] != '\0' && save[i] != '\n')
+	{
+		str[j] = save[i];
+		j++;
+		i++;
+	}
+	
+	str[j] = '\0';
+	return(str);
+}*/
+	// str = (char *)malloc(sizeof(char) * (len - i + 1)); // malloc for the line(before '\n')
+	// if(!str)
+	// 	free(str);
+	// 	return (NULL);
+	
+	// while(save[i] != '\0' && save[i] != '\n')
+	// {
+	// 	str[j] = save[i];
+	// 	i--;
+	// 	j++;
+	// }
+	
 
 char *ft_strjoin(char *s1, char *s2)
 {
@@ -154,13 +173,14 @@ char *ft_strjoin(char *s1, char *s2)
 		free(new_s);
 		return (NULL);
 	}		
-	while(*s1)
+	while (s1[i])
 	{
-		new_s[i] = s1[i];
+		new_s[j] = s1[i];
 		i++;
+		j++;
 	}
 	i = 0;
-	while (s2[i] != '\0')
+	while (s2[i])
 	{
 		new_s[j] = s2[i];
 		i++;
@@ -169,6 +189,40 @@ char *ft_strjoin(char *s1, char *s2)
 	new_s[j] = '\0';
 	return (new_s);
 }
+
+// char	*ft_strcat(char *s1, char *s2)
+// {	
+// 	int i;
+// 	int j;
+// 	char *new_s;
+	
+// 	i = ft_strlen(s1);
+//     j = 0;
+//     while (s2[j])
+//     {
+//     	s1[i + j] = s2[j];
+//         j++;
+//     }
+//     new_s = (char *)malloc(sizeof(char)* (i + j + 1));
+// 	if(!new_s)
+// 	{
+// 		free(new_s);
+// 		return (NULL);
+// 	}
+	
+//     return (s1);
+// }
+
+// 1. new_s = malloc (strlen(dst) + strlen(src) + 1) 
+// + (if use strcat, take more steps and original strcat is not enough memory space)
+// 2. *src -> new_s 
+// 3. *dest -> new_s (already it has src)
+// + if there's no new_s, not enough space
+// 4. return new_s
+
+
+
+
 
 char	*ft_read(int fd, char *save) // read file(BUFFER_SIZE) and save in static char* save
 {
@@ -181,63 +235,91 @@ char	*ft_read(int fd, char *save) // read file(BUFFER_SIZE) and save in static c
 		return(NULL);
 	while(read_return > 0)
 	{
-		read_return = read(fd, buff, BUFFER_SIZE);
+		read_return = read(fd, buff, BUFFER_SIZE); // read till buff_size
+		printf("* read_return :%d\n", read_return);
 		if(read_return == -1)
 			return (NULL);
 		buff[read_return] = '\0';
-		save = ft_strjoin(save, buff);
+		//printf("** buff: %s\n", buff);
+		//if(read_return == 0)
+		//	return (save);
+		save = ft_strjoin(save, buff); //strcat? no, strcat : why? not enough space
+		//printf("*****save in ft_read %s\n", save);
 	}
-	free(buff);
-	return(save);
+	//if(read_return == 0)
+	free(buff); // only need for read(), size=BUFFER_SIZE
 	
+	return(save);
 }
+
 char	*get_next_line(int fd)// last function(return one line)
 {
 	static char* save;
 	char *line;
+	int i;
 
+	i = 0;
 	if(fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	save = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	save = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1)); // initialize
+	printf("save here\n");
 	if(!save)
 		return(NULL);
-	save = ft_read(fd, save);
-	if(*save)
-	{
-		line = ft_one_line(save);
-		
+	save = ft_read(fd, save); // read whole text (while read_return exists)	
+	while(save[i] != '\0' &&  save[i] != '\n') // size = BUFFER_SIZE
+	{	
+		i++;	
 	}
+	line = (char*)malloc(sizeof(char) * (i + 1));
+	if(!line)
+	{
+		free(line);
+		return (NULL);
+	}
+	line = ft_one_line(save);
+	printf("line : : : %s", line);
 	free(save);
-	return(line);
+	printf("*** save : %d\n", ft_strlen(save));
+	
+	
+	return(save);
 }
-
-
-	
-	
-
-
 
 int main(void)
 {
     int fd = open("test.txt", O_RDONLY);
 	int i;
-
+	char buffer[1024];
+	i = 0;
     if (fd == -1)
     {
         perror("파일 열기 실패");
         return 1;
     }
-	
-   
-    while (i > 7)
-    {
-        // 한 줄을 처리 (예: 출력)
-        printf("라인: %s\n", get_next_line(fd));
-    }
 
+	printf("SHITTT%s\n" , get_next_line(fd));
+	
     close(fd);
     return 0;
 }
+
+
+
+// int main() {
+//     char *sample_text = "This is the first line.\nThis is the second line.\nThis is the third line.";
+    
+//     // ft_one_line 함수를 테스트
+//     char *line = ft_one_line(sample_text);
+    
+//     if (line) {
+//         printf("추출된 라인: %s\n", line);
+//         free(line); // 메모리 해제
+//     } else {
+//         printf("라인 추출 실패\n");
+//     }
+
+//     return 0;
+// }
 	// while (( size = read(fd, buff, 5)) != 0) // read 5bytes each and write (no, size = ~ seperatly once)
 	// {
 	// 	if (size == -1) // 0: successful completion/ >0 end-of-file or Error
