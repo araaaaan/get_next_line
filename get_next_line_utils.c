@@ -6,7 +6,7 @@
 /*   By: arlee <arlee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:59:05 by arlee             #+#    #+#             */
-/*   Updated: 2023/09/18 19:34:54 by arlee            ###   ########.fr       */
+/*   Updated: 2023/09/18 21:00:59 by arlee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	// if (!s1)
-	// 	s1 = "";
 	new_s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!new_s)
 	{
