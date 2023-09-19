@@ -3,26 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaaaaran <aaaaaran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arlee <arlee@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:59:05 by arlee             #+#    #+#             */
-/*   Updated: 2023/09/19 22:12:33 by aaaaaran         ###   ########.fr       */
+/*   Updated: 2023/09/19 20:17:39 by arlee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strchr(char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
+	
+	if(!s)
+		return (NULL);
 	while (s[i])
 	{
-		if (s[i] == c)
-			return (s);
+		if (s[i] == (unsigned char)c)
+			return ((char *)s + i);
 		i++;
 	}
+	if ((unsigned char)c == 0)
+		return ((char *)s + i);
 	return (NULL);
 }
 
@@ -46,7 +51,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (!s1 && !s2)
+	if (!s1 || !s2)
 		return (NULL);
 	new_s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!new_s)
@@ -61,24 +66,25 @@ char	*ft_strjoin(char *s1, char *s2)
 	new_s[j] = '\0';
 	return (new_s);
 }
-char *ft_strdup(const char *s)
+
+char	*ft_strdup(const char *s)
 {
-	char	*p;
+	char	*s1;
 	int		i;
 	int		len;
 
-	i = 0;
 	if (!s)
 		return (NULL);
+	i = 0;
 	len = ft_strlen(s);
-	p = (char *)malloc(sizeof(char) * (len + 1));
-	if (!p)
+	s1 = (char *)malloc(sizeof(char) * (len + 1));
+	if (!s1)
 		return (NULL);
-	while (*(s + i) != '\0')
+	while (i < len)
 	{
-		*(p + i) = *(s + i);
+		s1[i] = s[i];
 		i++;
 	}
-	*(p + i) = '\0';
-	return (p);
+	s1[len] = '\0';
+	return (s1);
 }
