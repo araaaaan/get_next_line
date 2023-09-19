@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arlee <arlee@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aaaaaran <aaaaaran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:55:03 by arlee             #+#    #+#             */
-/*   Updated: 2023/09/18 20:17:24 by arlee            ###   ########.fr       */
+/*   Updated: 2023/09/19 21:32:37 by aaaaaran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ char	*ft_read(int fd, char *save);
 char	*ft_one_line(char *save);
 char	*ft_next_save(char *save);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strchr(const char *s, int c);
-int		ft_strlen(char *str);
+char	*ft_strchr(char *s, int c);
+int		ft_strlen(const char *str);
+char	*ft_strdup(const char *s);
 
 #endif
