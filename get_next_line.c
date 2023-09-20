@@ -6,7 +6,7 @@
 /*   By: aaaaaran <aaaaaran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 18:40:03 by arlee             #+#    #+#             */
-/*   Updated: 2023/09/21 04:02:45 by aaaaaran         ###   ########.fr       */
+/*   Updated: 2023/09/21 07:14:06 by aaaaaran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ char	*get_next_line(int fd)
 	static char	*save;
 	char		*line;
 
-	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	save = ft_read(fd, save);
